@@ -8,20 +8,23 @@ echo "" > ${file}.dts
 echo "" >${file}-pinmux.dts
 echo "" >${file}-gpio.dts
 echo "" >${file}_config-pin.txt
+echo "" >${file}-a-bone-pins.h
+echo "" >${file}-b-bone-pins.h
+echo "" >${file}-bone-pins.h
 
 disable_timer="enable"
 
 #PocketBeagle
 gpio_index="7"
 
-msg="/************************/" ; echo_both
-msg="/* P1 Header */" ; echo_both
-msg="/************************/" ; echo_both
+msg="	/************************/" ; echo_both
+msg="	/* P1 Header */" ; echo_both
+msg="	/************************/" ; echo_both
 msg="" ; echo_both
 
 pcbpin="P1_01" ; label_pin="power" ; label_info="VIN-AC" ; echo_label
 
-pcbpin="P1_02" ; ball="R5" ; default_mode="7" ; cp_default="gpio_input" ; find_ball
+pcbpin="P1_02" ; ball="R5" ; default_mode="7" ; cp_default="gpio" ; find_ball
 
 pcbpin="P1_03" ; ball="F15" label_pin="system" ; label_info="usb1_vbus_out" ; echo_label_analog
 
@@ -101,9 +104,9 @@ gpio_index="7"
 
 msg="" ; echo_both
 
-msg="/************************/" ; echo_both
-msg="/* P2 Header */" ; echo_both
-msg="/************************/" ; echo_both
+msg="	/************************/" ; echo_both
+msg="	/* P2 Header */" ; echo_both
+msg="	/************************/" ; echo_both
 msg="" ; echo_both
 
 pcbpin="P2_01" ; ball="U14" ; default_mode="6" ; cp_default="pwm" ; find_ball
@@ -189,21 +192,28 @@ gpio_index="7"
 
 pcbpin="P2_33" ; ball="R12" ; default_mode="7" ; find_ball
 pcbpin="P2_34" ; ball="C13" ; default_mode="6" ; cp_default="pruin" ; find_ball
-pcbpin="P2_35" ; ball="U5" ; default_mode="7" ; cp_default="gpio_input" ; find_ball
+pcbpin="P2_35" ; ball="U5" ; default_mode="7" ; cp_default="gpio" ; find_ball
 
 pcbpin="P2_36" ; ball="C9" label_pin="adc" ; label_info="AIN7" ; echo_label_analog
 
 cat ${file}-pinmux.dts >> ${file}.dts
 
-echo "cape-universal {" >> ${file}.dts
-echo "	compatible = \"gpio-of-helper\";" >> ${file}.dts
-echo "	status = \"okay\";" >> ${file}.dts
-echo "	pinctrl-names = \"default\";" >> ${file}.dts
-echo "	pinctrl-0 = <>;" >> ${file}.dts
+echo "	cape-universal {" >> ${file}.dts
+echo "		compatible = \"gpio-of-helper\";" >> ${file}.dts
+echo "		status = \"okay\";" >> ${file}.dts
+echo "		pinctrl-names = \"default\";" >> ${file}.dts
+echo "		pinctrl-0 = <>;" >> ${file}.dts
 
 cat ${file}-gpio.dts >> ${file}.dts
 
+echo "	};" >> ${file}.dts
 echo "};" >> ${file}.dts
 
 rm -rf ${file}-pinmux.dts || true
 rm -rf ${file}-gpio.dts || true
+
+cat ${file}-a-bone-pins.h >> ${file}-bone-pins.h
+cat ${file}-b-bone-pins.h >> ${file}-bone-pins.h
+
+rm -rf ${file}-a-bone-pins.h || true
+rm -rf ${file}-b-bone-pins.h || true

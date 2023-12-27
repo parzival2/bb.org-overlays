@@ -1,6 +1,14 @@
 // SPDX-License-Identifier: GPL-2.0-only
 /*
- * Copyright (C) 2018 Robert Nelson <robertcnelson@gmail.com>
+ * Copyright (C) 2021 Sam Cohen <samc1213@gmail.com>
+ *
+ * Based on BB-I2C2-RTC-DS3231.dts:
+ * Copyright (C) 2019 Tomas Arturo Herrera Castro <taherrera@uc.cl>
+ *
+ * DTS file for DS3231 Real Time Clock, running on the I2C1 interface. Also see
+ * BB-I2C2-RTC-DS3231.dts to run this RTC on I2C2.
+ *
+ * Tested on BeagleBone Black Wireless
  */
 
 /dts-v1/;
@@ -14,7 +22,7 @@
  */
 &{/chosen} {
 	overlays {
-		BB-I2C1-RTC-PCF8563.bb.org-overlays = __TIMESTAMP__;
+		BB-I2C1-RTC-DS3231.bb.org-overlays = __TIMESTAMP__;
 	};
 };
 
@@ -53,9 +61,9 @@
 	#address-cells = <1>;
 	#size-cells = <0>;
 
-	extrtc: pcf8563@51 {
+	extrtc: ds3231@68 {
 		status = "okay";
-		compatible = "nxp,pcf8563";
-		reg = <0x51>;
+		compatible = "maxim,ds3231";
+		reg = <0x68>;
 	};
 };

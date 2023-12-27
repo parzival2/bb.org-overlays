@@ -1,9 +1,6 @@
+// SPDX-License-Identifier: GPL-2.0-only
 /*
  * Copyright (C) 2020 Niklas Wantrupp <niklaswantrupp@web.de>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License version 2 as
- * published by the Free Software Foundation.
  */
 
 /dts-v1/;
@@ -14,18 +11,16 @@
 #include <dt-bindings/pinctrl/dra.h>
 #include <dt-bindings/clock/dra7.h>
 
-/ {
-	fragment@0 {
-		target-path = "/";
-		__overlay__ {
-			chosen {
-				overlays {
-					BBAI_BB-BONE-FACE-8CH-00A0 = __TIMESTAMP__;
-				};
-			};
-		};
+/*
+ * Helper to show loaded overlays under: /proc/device-tree/chosen/overlays/
+ */
+&{/chosen} {
+	overlays {
+		BBAI_BB-BONE-FACE-8CH-00A0.bb.org-overlays = __TIMESTAMP__;
 	};
-	
+};
+
+/ {
 	fragment@1 {
 		target-path = "/";
 		__overlay__ {

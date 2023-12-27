@@ -6,11 +6,15 @@ file="BeagleBone_Black"
 
 generate_timer="enable"
 generate_spi="enable"
+#generate_gpio_input="enable"
 
 echo "" > ${file}.dts
 echo "" >${file}-pinmux.dts
 echo "" >${file}-gpio.dts
 echo "" >${file}_config-pin.txt
+echo "" >${file}-a-bone-pins.h
+echo "" >${file}-b-bone-pins.h
+echo "" >${file}-bone-pins.h
 
 #BeagleBone Black
 gpio_index="7"
@@ -18,9 +22,9 @@ gpio_index="7"
 #pcbpin="P9_42" ; ball="C18" ; find_ball
 #exit 2
 
-msg="/************************/" ; echo_both
-msg="/* P8 Header */" ; echo_both
-msg="/************************/" ; echo_both
+msg="	/************************/" ; echo_both
+msg="	/* P8 Header */" ; echo_both
+msg="	/************************/" ; echo_both
 msg="" ; echo_both
 
 pcbpin="P8_01" ; label_pin="gnd" ; label_info="GND" ; echo_label
@@ -102,9 +106,9 @@ pcbpin="P8_45" ; ball="R1" ; default_mode="7" ; cp_default="hdmi" ; use_name="hd
 pcbpin="P8_46" ; ball="R2" ; default_mode="7" ; cp_default="hdmi" ; use_name="hdmi" ; default_name="hdmi" ; find_ball
 gpio_index="7"
 
-msg="/************************/" ; echo_both
-msg="/* P9 Header */" ; echo_both
-msg="/************************/" ; echo_both ; msg="" ; echo_both
+msg="	/************************/" ; echo_both
+msg="	/* P9 Header */" ; echo_both
+msg="	/************************/" ; echo_both ; msg="" ; echo_both
 
 pcbpin="P9_01" ; label_pin="gnd" ; label_info="GND" ; echo_label
 pcbpin="P9_02" ; label_pin="gnd" ; label_info="GND" ; echo_label
@@ -168,13 +172,13 @@ pcbpin="P9_40" ; ball="C7" label_pin="adc" ; label_info="AIN1" ; echo_label_anal
 
 gpio_index="6"
 pcbpin="P9_41" ; ball="D14" ; default_mode="7" ; find_ball
-msg="/* P9_41.1 */" ; echo_both
+msg="	/* P9_41.1 */" ; echo_both
 
 pcbpin="P9_91" ; ball="D13" ; default_mode="7" ; find_ball
 gpio_index="7"
 
 pcbpin="P9_42" ; ball="C18" ; default_mode="7" ; find_ball
-msg="/* P9_42.1 */" ; echo_both
+msg="	/* P9_42.1 */" ; echo_both
 pcbpin="P9_92" ; ball="B12" ; default_mode="7" ; find_ball
 
 pcbpin="P9_43" ; label_pin="gnd" ; label_info="GND" ; echo_label
@@ -182,9 +186,9 @@ pcbpin="P9_44" ; label_pin="gnd" ; label_info="GND" ; echo_label
 pcbpin="P9_45" ; label_pin="gnd" ; label_info="GND" ; echo_label
 pcbpin="P9_46" ; label_pin="gnd" ; label_info="GND" ; echo_label
 
-msg="/************************/" ; echo_both
-msg="/* Special */" ; echo_both
-msg="/************************/" ; echo_both ; msg="" ; echo_both
+msg="	/************************/" ; echo_both
+msg="	/* Special */" ; echo_both
+msg="	/************************/" ; echo_both ; msg="" ; echo_both
 
 #gpio_index="6"
 #pcbpin="A15" ; ball="A15" ; default_mode="3" ; find_ball
@@ -194,15 +198,22 @@ msg="" ; echo_both
 
 cat ${file}-pinmux.dts >> ${file}.dts
 
-echo "cape-universal {" >> ${file}.dts
-echo "	compatible = \"gpio-of-helper\";" >> ${file}.dts
-echo "	status = \"okay\";" >> ${file}.dts
-echo "	pinctrl-names = \"default\";" >> ${file}.dts
-echo "	pinctrl-0 = <>;" >> ${file}.dts
+echo "	cape-universal {" >> ${file}.dts
+echo "		compatible = \"gpio-of-helper\";" >> ${file}.dts
+echo "		status = \"okay\";" >> ${file}.dts
+echo "		pinctrl-names = \"default\";" >> ${file}.dts
+echo "		pinctrl-0 = <>;" >> ${file}.dts
 
 cat ${file}-gpio.dts >> ${file}.dts
 
+echo "	};" >> ${file}.dts
 echo "};" >> ${file}.dts
 
 rm -rf ${file}-pinmux.dts || true
 rm -rf ${file}-gpio.dts || true
+
+cat ${file}-a-bone-pins.h >> ${file}-bone-pins.h
+cat ${file}-b-bone-pins.h >> ${file}-bone-pins.h
+
+rm -rf ${file}-a-bone-pins.h || true
+rm -rf ${file}-b-bone-pins.h || true
